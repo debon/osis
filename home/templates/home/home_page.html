@@ -1,49 +1,49 @@
 {% extends "base.html" %}
 
 {% load wagtailcore_tags %}
-
+{% load tz %}
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
-   <div id="header">
-     <div id ="info">
-       <h1>THE <span class="pink">OPEN SOURCE</span><br>
-	 INNOVATION SPRING</h1>
-       {{ page.intro | richtext }}
-       {{ page.credit | richtext }}
-     </div>
-   </div>
-   <div class="darkgrey-strip pal-5e">
-     <div class="container">
-       <div class="row">
-	 <div id="intro">
-	   {{ page.body | richtext }}
-	 </div>
-	 <div class="legendary">Pourquoi venir ?</div>
-	 <ul class="list-square spaced-li">
-           <li> Pour <span class="blue-bold">élargir et approfondir ses connaissances</span> sur un ensemble de technologies clefs pour la transformation numérique et la compétivité des entreprises, en interagissant directement avec les créateurs de ces technologies et les pionniers de leurs usages ;</li>
-           <li>Pour <span class="blue-bold">découvrir</span>, en amont de la courbe d'adoption par le marché, les projets d'innovation académiques et industriels dont l'impact se fera sentir dans les années à venir ;</li>
-           <li> Pour <span class="blue-bold">comprendre</span> comment appliquer dès aujourd'hui ces connaissances à leurs problématiques métiers – depuis la vision stratégique jusqu'aux détails d'implémentation rarement évoqués mais souvent cruciaux ; </li>
-           <li>Pour <span class="blue-bold">rencontrer</span> ses pairs, nouer de nouveaux contacts, faire émerger de nouvelles collaborations.</li>
-	 </ul>
-       </div>
-     </div>
-     <br>
-   </div>
+<div id="header">
+  <div id ="info">
+    <h1>THE <span class="pink">OPEN SOURCE</span><br>
+      INNOVATION SPRING</h1>
+    {{ page.intro | richtext }}
+    {{ page.credit | richtext }}
+  </div>
+</div>
+<div class="darkgrey-strip pa1-5e">
+  <div class="container">
+    <div class="row">
+      <div id="intro">
+	{{ page.body | richtext }}
+      </div>
+      <div class="legendary">Pourquoi venir ?</div>
+      <ul class="list-square spaced-li">
+        <li> Pour <span class="blue-bold">élargir et approfondir ses connaissances</span> sur un ensemble de technologies clefs pour la transformation numérique et la compétivité des entreprises, en interagissant directement avec les créateurs de ces technologies et les pionniers de leurs usages ;</li>
+        <li>Pour <span class="blue-bold">découvrir</span>, en amont de la courbe d'adoption par le marché, les projets d'innovation académiques et industriels dont l'impact se fera sentir dans les années à venir ;</li>
+        <li> Pour <span class="blue-bold">comprendre</span> comment appliquer dès aujourd'hui ces connaissances à leurs problématiques métiers – depuis la vision stratégique jusqu'aux détails d'implémentation rarement évoqués mais souvent cruciaux ; </li>
+        <li>Pour <span class="blue-bold">rencontrer</span> ses pairs, nouer de nouveaux contacts, faire émerger de nouvelles collaborations.</li>
+      </ul>
+    </div>
+  </div>
+  <br>
 </div>
 <div id="program">
-   {% if page.related_links.all %}
-      <ul>
-	{% for item in page.related_links.all %}
-	   <li><a href="{{ item.link }}">{{ item.link_page.title }}</a></li>
-	   <div class="row"><h2 class="title col-md-12">{{ item.link_page.date_start.date }}
-	     <span class="pink">[{{ item.link_page.tag }}]</span>
-	      {{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }}]</span></h2></div>
-	    <span class="icon lightblue-bg">{{ item.link_page.date_start.time }} - {{ item.link_page.date_stop.time }}</span><h3 class="theme"><span class="glyphicon glyphicon-leaf green"></span>{{ item.link_page.main_title }}</h3><br><br>
-	    
-	   
-	{% endfor %}
-      </ul>
-   {% endif %}
-{% endblock %}
+  {% if page.related_links.all %}
+  <ul class="container">
+    {% for item in page.related_links.all %}
+    <div itemscope itemtype="http://schema.org/Event">
+      <li><a href="{{ item.link }}">{{ item.link_page.title }}</a></li>
+      <h2 class="title col-md-12">{{ item.link_page.date_start.date|date:"l" }}, {{ item.link_page.date_start.date }}
+	<span class="pink">[{{ item.link_page.tag }}]</span>
+	{{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }} {% if item.link_page.place %}- {% if item.link_page.place_link %}<a href="{{ item.link_page.place_link }}">{% endif %}{{ item.link_page.place }}{% if item.link_page.place_link %}</a>{% endif %}{% endif %}]</span></h2>
+      <div class="col-md-2 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H:i" }} - {{ item.link_page.date_stop.time|time:"H:i" }}</span></div>
+      <h3 class="theme">{{ item.link_page.main_title }}</h3><br>
+    </div>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endblock %}
 </div>
