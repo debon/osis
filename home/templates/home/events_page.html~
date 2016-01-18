@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+
+
+{% block body_class %}template-eventspage{% endblock %}
+
+{% block content %}
+
+<h3>{{ page.date }} <span class="pink">[{{ page.topicTag }}]</span>
+ {{ page.title }} <span class="pink">[{{ page.city }}
+{% if page.place %}
+ - {% if page.place_link %}<a href="{{ page.place_link }}">{% endif %}
+{{ page.place }}{% if page.place_link %}</a>{% endif %}{% endif %}
+]</span></h3>
+<div class="time">{{ page.hour_start }}H{{ page.min_start }} - {{ page.hour_end }}H{{ page.min_end }}</div>
+<h4>{% if page.main_title_link %}<a href="{{ page.main_title_link }}">{% endif %}
+{{ page.main_title }}{% if page.main_title_link %}</a>{% endif %}</h4>
+
+<div class="body">{{ page.body|richtext }}</div>
+
+{% endblock %}
+

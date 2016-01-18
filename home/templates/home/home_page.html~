@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+   <h1>THE <span class="pink">OPEN SOURCE</span> INNOVATION SPRING</h1>
+
+   <div class="intro">{{ page.body|richtext }}</div>
+
+   {% if page.related_links.all %}
+      <ul>
+	{% for item in page.related_links.all %}
+	   <li><a href="{{ item.link }}">{{ item.link_page.title }}</a></li>
+	   <br><div class="description">{{ item.link_page.date_start.date }}
+	     <span class="pink">[{{ item.link_page.topicTag }}]</span>
+	      {{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }}]</span>
+	    <br>{{ item.link_page.date_start.time }} - {{ item.link_page.date_stop.time }}      {{ item.link_page.main_title }}<br><br>
+	    
+	   </div>
+	{% endfor %}
+      </ul>
+   {% endif %}
+{% endblock %}
