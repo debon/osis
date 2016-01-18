@@ -37,7 +37,7 @@
 	{% for item in page.related_links.all %}
 	   <li><a href="{{ item.link }}">{{ item.link_page.title }}</a></li>
 	   <div class="row"><h2 class="title col-md-12">{{ item.link_page.date_start.date }}
-	     <span class="pink">[{{ item.link_page.topicTag }}]</span>
+	     <span class="pink">[{{ item.link_page.tag }}]</span>
 	      {{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }}]</span></h2></div>
 	    <span class="icon lightblue-bg">{{ item.link_page.date_start.time }} - {{ item.link_page.date_stop.time }}</span><h3 class="theme"><span class="glyphicon glyphicon-leaf green"></span>{{ item.link_page.main_title }}</h3><br><br>
 	    
