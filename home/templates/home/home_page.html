@@ -2,6 +2,7 @@
 
 {% load wagtailcore_tags %}
 {% load tz %}
+{% load wagtailimages_tags %}
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
@@ -47,9 +48,15 @@
 <div id="participants">
   <div class="container">
     <h2 class="organizers">Organisateurs et coorganisateurs :</h2>
-    <div class="col-md-12">
+    <div class="col-md-12">    
       <ul class="credits list-inline">
 	<!-- Liste des logos des organisateurs -->
+	{% for item in page.related_links.all %}
+	{% for pict in item.link_page.logo.all %}
+	<li><a href="{{ pict.link }}">{% image pict.icon height-40 as photo %}
+	    <img alt="{{ pict.name }}" src="{{ photo.url }}"/></a></li>
+	{% endfor %}{% endfor %}
+
       </ul>
     </div>
   </div>
@@ -57,7 +64,7 @@
     <h2 class="organizers">Ils relaient l'OSIS, merci !!</h2>
     <div class="col-md-12">
       <ul class="credits list-inline">
-	<!-- Liste des relayeurs de l'OSIS -->
+
       </ul>
     </div>
   </div>

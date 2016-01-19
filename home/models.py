@@ -51,31 +51,65 @@ class LinkFields(models.Model):
     class Meta:
         abstract = True
 
-#class Location(models.Model):
-#    city = models.CharField(max_length = 20, blank=True)
-#    place = models.CharField(max_length = 20, blank=True)
-#    place_link = models.URLField(blank = True)
-    
 
 class RelatedLink(LinkFields):
-    #title = models.CharField(max_length=255, help_text="Link title")
-
     panels = [
-        #FieldPanel('title'),
         MultiFieldPanel(LinkFields.panels, "Link"),
     ]
 
     class Meta:
         abstract = True
 
-#class Logo(models.Model):
-#    name = models.CharField(max_length = 100)
-#    link = models.URLField("Logo link",
-#        blank=True,
-#        null=True,
-#        help_text='Set an external link in order to point to the logo web site',
-#    )
 
+class Logo(models.Model, index.Indexed):
+    name = models.CharField(max_length = 100, blank=True)
+    link = models.URLField("Logo link",
+        blank=True,
+        null=True,
+        help_text='Set an external link in order to point to the logo web site',
+    )
+    icon = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    category = models.CharField(
+        max_length = 20,
+        blank=True,
+        help_text='for templating work choose "Organizer" or "Follower"',
+    )    
+    search_fields = (
+        index.FilterField('category'),
+    )
+  
+    @property
+    def cat(self):
+        if self.cat_orga:
+            return self.filter(category="Organizer")
+        if self.spons:
+            return self.filter(category="Follower")
+        if self.both:
+            return self.all
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('link'),
+        FieldPanel('category'),
+        ImageChooserPanel('icon'),
+    ]
+
+    class Meta:
+        abstract = True
+
+class LogoYourself(Logo):
+    panels = [
+        MultiFieldPanel(Logo.panels, "Logo"),
+        ]
+    
+    class Meta:
+        abstract = True
 
 class HomePage(Page):
     body = RichTextField(blank=True)
@@ -86,7 +120,6 @@ class HomePage(Page):
         ('link', blocks.URLBlock(help_text="url to your website")),
         ('img', ImageChooserBlock()),
     ], blank=True)
-    footer = 
 
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
@@ -94,6 +127,7 @@ class HomePage(Page):
         FieldPanel('credit'),
         FieldPanel('body'),
         InlinePanel('related_links', label="Related events"),
+        #InlinePanel('your_logo', label="Logo"),
     ]
 
 
@@ -110,6 +144,8 @@ class EventsPage(Page):
     main_title = models.CharField(max_length = 255, default="Event Description")
     main_title_link = models.URLField(blank=True)
     body = RichTextField(blank=True)
+    btn_txt = models.CharField(max_length = 30, default="infos")
+    btn_link = models.URLField(default="http://www.open-source-innovation-spring.org")
     
     #TO DO configure a set of choices for design presentation :
     # Schedules -> Program -> Speakers -> Topics
@@ -139,10 +175,17 @@ class EventsPage(Page):
             FieldPanel('main_title', classname="col6"),
             FieldPanel('main_title_link', classname="col6"),
         ]),
+        InlinePanel('logo', label="logo"),
         FieldPanel('body'),
+        FieldRowPanel([
+            FieldPanel('btn_txt', classname="col6"),
+            FieldPanel('btn_link', classname="col6"),
+        ]),
     ]
 
 
 class EventsRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('HomePage', related_name='related_links')
 
+class LogoMaker(Orderable, LogoYourself):
+    page = ParentalKey('EventsPage', related_name='logo')
