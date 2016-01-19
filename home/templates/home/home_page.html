@@ -32,18 +32,51 @@
 </div>
 <div id="program">
   {% if page.related_links.all %}
-  <ul class="container">
+  <div class="container">
     {% for item in page.related_links.all %}
-    <div itemscope itemtype="http://schema.org/Event">
-      <li><a href="{{ item.link }}">{{ item.link_page.title }}</a></li>
+    <a href="{{ item.link }}">
       <h2 class="title col-md-12">{{ item.link_page.date_start.date|date:"l" }}, {{ item.link_page.date_start.date }}
 	<span class="pink">[{{ item.link_page.tag }}]</span>
-	{{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }} {% if item.link_page.place %}- {% if item.link_page.place_link %}<a href="{{ item.link_page.place_link }}">{% endif %}{{ item.link_page.place }}{% if item.link_page.place_link %}</a>{% endif %}{% endif %}]</span></h2>
-      <div class="col-md-2 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H:i" }} - {{ item.link_page.date_stop.time|time:"H:i" }}</span></div>
-      <h3 class="theme">{{ item.link_page.main_title }}</h3><br>
-    </div>
+	{{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }}{% if item.link_page.place %} - {{ item.link_page.place }}{% endif %}]</span></h2></a>
+    <h3><div class="col-md-2 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H:i" }} - {{ item.link_page.date_stop.time|time:"H:i" }}</span></div></h3>
+    <h3 class="theme">{{ item.link_page.main_title }}</h3><br>
     {% endfor %}
-  </ul>
+  </div>
   {% endif %}
-  {% endblock %}
 </div>
+<div id="participants">
+  <div class="container">
+    <h2 class="organizers">Organisateurs et coorganisateurs :</h2>
+    <div class="col-md-12">
+      <ul class="credits list-inline">
+	<!-- Liste des logos des organisateurs -->
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <h2 class="organizers">Ils relaient l'OSIS, merci !!</h2>
+    <div class="col-md-12">
+      <ul class="credits list-inline">
+	<!-- Liste des relayeurs de l'OSIS -->
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+	<h2 class="organizers">Coordinateur :</h2>
+	<!-- logo avec lien -->
+	<br>
+	Contact :
+	<!-- Nom du contact avec lien vers son mail -->
+	<h2 class="organizers">Avec le soutien de :</h2>
+	<ul class="list-square">
+	<!-- Liste des soutiens : Noms avec liens -->
+	</ul>
+      </div>
+    </div>
+  </div>
+</div>
+  {% endblock %}

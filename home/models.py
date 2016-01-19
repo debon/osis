@@ -12,6 +12,7 @@ from wagtail.wagtailadmin.edit_handlers import (FieldPanel,
                                                 PageChooserPanel,
                                                 StreamFieldPanel)
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailsearch import index
 from wagtail.wagtailsnippets.models import register_snippet
 from datetime import datetime
@@ -67,14 +68,29 @@ class RelatedLink(LinkFields):
     class Meta:
         abstract = True
 
+#class Logo(models.Model):
+#    name = models.CharField(max_length = 100)
+#    link = models.URLField("Logo link",
+#        blank=True,
+#        null=True,
+#        help_text='Set an external link in order to point to the logo web site',
+#    )
+
 
 class HomePage(Page):
     body = RichTextField(blank=True)
     intro = RichTextField(blank=True)
     credit = RichTextField(blank=True)
+    image = StreamField([
+        ('name', blocks.CharBlock(help_text="title of your logo")),
+        ('link', blocks.URLBlock(help_text="url to your website")),
+        ('img', ImageChooserBlock()),
+    ], blank=True)
+    footer = 
 
     content_panels = Page.content_panels + [
         FieldPanel('intro'),
+        StreamFieldPanel('image'),
         FieldPanel('credit'),
         FieldPanel('body'),
         InlinePanel('related_links', label="Related events"),
