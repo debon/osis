@@ -39,7 +39,7 @@
       <h2 class="title col-md-12">{{ item.link_page.date_start.date|date:"l" }}, {{ item.link_page.date_start.date }}
 	<span class="pink">[{{ item.link_page.tag }}]</span>
 	{{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }}{% if item.link_page.place %} - {{ item.link_page.place }}{% endif %}]</span></h2></a>
-    <h3><div class="col-md-2 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H:i" }} - {{ item.link_page.date_stop.time|time:"H:i" }}</span></div></h3>
+    <h4><div class="col-md-2 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H:i" }} - {{ item.link_page.date_stop.time|time:"H:i" }}</span></div></h4>
     <h3 class="theme">{{ item.link_page.main_title }}</h3><br>
     {% endfor %}
   </div>
@@ -77,10 +77,13 @@
 	<!-- logo avec lien -->
 	<br>
 	Contact :
-	<!-- Nom du contact avec lien vers son mail -->
+     <a href="mailto:muriel.shanseifan@systematic-paris-region.org?subject=OSIS">Muriel SHAN SEI FAN</a>
 	<h2 class="organizers">Avec le soutien de :</h2>
 	<ul class="list-square">
-	<!-- Liste des soutiens : Noms avec liens -->
+	<li><a href="http://www.abilian.com/" target="_blank">Abilian</a></li>
+        <li><a href="http://www.logilab.fr/" target="_blank">Logilab</a></li>
+        <li><a href="http://www.inria.fr/" target="_blank">Inria</a></li>
+        <li><a href="http://www.openworldforum.paris/fr/">Open World Forum</a></li>
 	</ul>
       </div>
     </div>

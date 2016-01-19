@@ -144,7 +144,7 @@ class EventsPage(Page):
     main_title = models.CharField(max_length = 255, default="Event Description")
     main_title_link = models.URLField(blank=True)
     body = RichTextField(blank=True)
-    btn_txt = models.CharField(max_length = 30, default="infos")
+    btn_txt = models.CharField(max_length = 30, default="S'inscrire")
     btn_link = models.URLField(default="http://www.open-source-innovation-spring.org")
     
     #TO DO configure a set of choices for design presentation :

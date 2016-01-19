@@ -17,7 +17,7 @@
     {% endfor %}
     <br><br>
     <div class="body">{{ page.body|richtext }}</div>
-    <a class="btn btn-sign-in" target="_blank" href=""></a>
+    <a class="btn btn-sign-in" target="_blank" href="{{ page.btn_link }}">{{ page.btn_txt }}</a>
   </div>
 </div>
 {% endblock %}
