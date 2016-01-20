@@ -7,12 +7,12 @@
 
 {% block content %}
 <div id="header">
-  <div id ="info">
+  <div id="info">
     <h1>THE <span class="pink">OPEN SOURCE</span><br>
       INNOVATION SPRING</h1>
     <h2><span class="pink">BIG DATA</span> | <span class="pink">IoT</span> | <span class="pink">CLOUD</span> | <span class="pink">QUALITÉ LOGICIELLE</span></h2>
     {{ page.intro | richtext }}
-    {{ page.credit | richtext }}
+    <span class="credits">{{ page.credit | richtext }}</span>
   </div>
 </div>
 <div class="darkgrey-strip pa1-5e">
