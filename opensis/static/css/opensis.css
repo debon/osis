@@ -6,6 +6,14 @@
     background-color: #F6F6F6;
 }
 
+.oy b {
+    color: #EB43A7;
+}
+
+.oy b a {
+    color: #EB43A7;
+    text-decoration: underline;
+}
 
 .bord {
     border: 1px solid #FFA35F;
