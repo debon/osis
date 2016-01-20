@@ -15,6 +15,13 @@
     text-decoration: underline;
 }
 
+.oy i b {
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+    font-style: normal;
+}
+
 .bord {
     border: 1px solid #FFA35F;
 }
