@@ -10,6 +10,7 @@
   <div id ="info">
     <h1>THE <span class="pink">OPEN SOURCE</span><br>
       INNOVATION SPRING</h1>
+    <h2><span class="pink">BIG DATA</span> | <span class="pink">IoT</span> | <span class="pink">CLOUD</span> | <span class="pink">QUALITÉ LOGICIELLE</span></h2>
     {{ page.intro | richtext }}
     {{ page.credit | richtext }}
   </div>
@@ -33,16 +34,38 @@
 </div>
 <div id="program">
   {% if page.related_links.all %}
+  {% for item in page.related_links.all %}
   <div class="container">
-    {% for item in page.related_links.all %}
-    <a href="{{ item.link }}">
-      <h2 class="title col-md-12">{{ item.link_page.date_start.date|date:"l" }}, {{ item.link_page.date_start.date }}
-	<span class="pink">[{{ item.link_page.tag }}]</span>
-	{{ item.link_page.title }} <span class="pink">[{{ item.link_page.city }}{% if item.link_page.place %} - {{ item.link_page.place }}{% endif %}]</span></h2></a>
-    <h4><div class="col-md-2 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H:i" }} - {{ item.link_page.date_stop.time|time:"H:i" }}</span></div></h4>
-    <h3 class="theme">{{ item.link_page.main_title }}</h3><br>
-    {% endfor %}
+    <div itemscope itemtype="http://schema.org/Event">
+      <div class="row">
+	<a href="{{ item.link }}">
+	  <h2 class="title col-md-12">
+	    <meta itemprop="startDate" content="{{ item.link_page.date_start }}">
+	    <meta itemprop="endDate" content="{{ item.link_page.date_stop }}">
+	    {{ item.link_page.date_start|date:"l" }}, {{ item.link_page.date_start|date }} <span class="pink">[{{ item.link_page.tag }}]</span> <span itemprop="name">{{ item.link_page.title }}</span> <span class="pink" itemprop="location" itemscope itemtype="http://schema.org/Place"> [{{ item.link_page.city }}{% if item.link_page.place %} - {{ item.link_page.place }}{% endif %}]</span></h2></a>
+      </div>
+      <div class="row conf">
+	<div class="col-md-1 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H" }}h-{{ item.link_page.date_stop.time|time:"H" }}h</span></div>
+	<div class="col-md-11 text">
+	  <h3 class="theme">
+	    {{ item.link_page.main_title }}
+	</h3>
+	</div>
+	<br>
+	{% for pict in item.link_page.logo.all %}
+	<a href="{{ pict.link }}">{% image pict.icon height-40 as photo %}
+	    <img alt="{{ pict.name }}" src="{{ photo.url }}"/></a>
+	{% endfor %}
+	<br><br><br>
+	<div class="content">
+	  {{ item.description|richtext }}
+	  <br>
+	  <a class="btn btn-sign-in" target="_blank" href="{{ item.link_page.url }}">Infos et Inscriptions</a>
+	</div>
+      </div>
+    </div>
   </div>
+  {% endfor %}
   {% endif %}
 </div>
 <div id="participants">
@@ -56,7 +79,7 @@
 	<li><a href="{{ pict.link }}">{% image pict.icon height-40 as photo %}
 	    <img alt="{{ pict.name }}" src="{{ photo.url }}"/></a></li>
 	{% endfor %}{% endfor %}
-
+	
       </ul>
     </div>
   </div>

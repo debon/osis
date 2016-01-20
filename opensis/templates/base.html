@@ -13,12 +13,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css">
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
 	<link href="{% static 'css/systematic.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static 'css/opensis.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/opensis.css' %}" rel="stylesheet" type="text/css">	
         {% endblock %}
     </head>
 

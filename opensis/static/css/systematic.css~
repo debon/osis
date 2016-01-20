@@ -329,7 +329,7 @@ a.btn-sign-in:hover {
 
 .conf .date .icon {
   font-family: "Oswald", sans-serif;
-  border: 60px solid #E7E7E7;
+  border: 1px solid #E7E7E7;
   padding: 0.7em 0.4em;
   float: left;
   margin-left: -11px;

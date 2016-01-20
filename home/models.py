@@ -21,6 +21,10 @@ from django.utils import timezone
 
 
 class LinkFields(models.Model):
+    description = RichTextField(
+        blank=True,
+        help_text='brief description of the event',
+    )
     link_external = models.URLField(
         "External link",
         blank=True,
@@ -44,6 +48,7 @@ class LinkFields(models.Model):
             return self.link_external
 
     panels = [
+        FieldPanel('description'),
         FieldPanel('link_external'),
         PageChooserPanel('link_page'),
     ]
@@ -75,28 +80,10 @@ class Logo(models.Model, index.Indexed):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    category = models.CharField(
-        max_length = 20,
-        blank=True,
-        help_text='for templating work choose "Organizer" or "Follower"',
-    )    
-    search_fields = (
-        index.FilterField('category'),
-    )
   
-    @property
-    def cat(self):
-        if self.cat_orga:
-            return self.filter(category="Organizer")
-        if self.spons:
-            return self.filter(category="Follower")
-        if self.both:
-            return self.all
-
     panels = [
         FieldPanel('name'),
         FieldPanel('link'),
-        FieldPanel('category'),
         ImageChooserPanel('icon'),
     ]
 
