@@ -66,6 +66,8 @@ class RelatedLink(LinkFields):
         abstract = True
 
 
+#class Speaker(models.Model):
+
 class Logo(models.Model, index.Indexed):
     name = models.CharField(max_length = 100, blank=True)
     link = models.URLField("Logo link",

@@ -1,9 +1,14 @@
 .oy {
     margin: auto;
-    width: 60%;
+    width: 100%;
     border: 3px solid #F6F6F6;
     padding: 20px;
     background-color: #F6F6F6;
+}
+
+#header a {
+    margin: auto;
+    font-size: 60%;
 }
 
 .oy b {
@@ -20,6 +25,21 @@
     text-decoration: underline;
     font-weight: bold;
     font-style: normal;
+}
+
+.oy h4 {
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.oy .h5 {
+    font-family: inherit;
+    font-size: 12px;
+    font-weigh: bold;
+}
+
+.oy .theme {
+    margin-left: 80px;
 }
 
 .bord {

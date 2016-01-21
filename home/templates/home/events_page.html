@@ -1,20 +1,92 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
+{% load i18n %}
+{% load tz %}
 {% load wagtailimages_tags %}
 {% block body_class %}template-eventspage{% endblock %}
 {% block content %}
-<div id="row">  
-  <div class="oy">
-    <h3><span class="pink">[{{ page.tag }}] </span>{{ page.title }} <span class="pink"> [{{ page.city }}{% if page.place %} - {% if page.place_link %}<a href="{{ page.place_link }}">{% endif %}{{ page.place }}{% if page.place_link %}</a>{% endif %}{% endif %}]</span></h3>
-    <h4 class="date">{{ page.date_start|date:"l" }}, {{ page.date_start|date }}<br><div class="time">{{ page.date_start.time|time:"H:i" }} - {{ page.date_stop.time|time:"H:i" }}</div></h4>
-    <h4 class="theme">{% if page.main_title_link %}<a href="{{ page.main_title_link }}">{% endif %}{{ page.main_title }}{% if page.main_title_link %}</a>{% endif %}</h4>
-    {% for item in page.logo.all %}
-    <a href="{{ item.link }}">{% image item.icon height-40  as tmp_photo %}
-      <img alt="{{ item.name }}" src="{{ tmp_photo.url }}"/></a>
-    {% endfor %}
-    <br><br>
-    <div class="body">{{ page.body|richtext }}</div>
-    <a class="btn btn-sign-in" target="_blank" href="{{ page.btn_link }}">{{ page.btn_txt }}</a>
+<div id="header">
+  <h1>The <span class="pink">Open Source</span><br>
+    Innovation Spring</h1>
+  <h2><br><span class="pink">[{{ page.tag }}]</span> {{ page.title }} <span class="pink">[{{ page.city }}]</span><br><br><a class="btn btn-sign-in" target="_blank" href="{{ page.btn_link }}">{{ page.btn_txt }}</a></h2>
+</div>
+<!-- <div class="darkgrey-strip pa1-5e"><div class="container"></div></div> -->
+<div id="program">
+  <div class="container">
+    <div itemscop itemtype="http://schema.org/Event">
+      <div class="oy">
+	<div clas="row">
+	  {% language 'fr' %}
+	  <h2 class="title col-md-12">
+	    {% blocktrans with day_t=page.date_start|date:"l" date_tday=page.date_start.day %}{{ day_t }} {{ date_tday }}
+	    {% endblocktrans %}{% if page.date_start.day == 1 %}er {% endif %} 
+	    {% blocktrans with date_tmonth=page.date_start|date:"F" %}
+	    {{ date_tmonth }} 
+	    {% endblocktrans %}
+	    {{ page.date_start.year }}
+	    {% endlanguage %}
+	    <span class="pink">[{{ page.tag }}] </span>{{ page.title }} 
+	    <span class="pink"> [{{ page.city }}{% if page.place %} - {% if page.place_link %}<a href="{{ page.place_link }}">{% endif %}{{ page.place }}{% if page.place_link %}</a>{% endif %}{% endif %}]</span>
+	  </h2>
+	</div>
+	<div class="row conf">
+	  <div class="col-md-1 date">
+	    <span class="icon lightblue-bg">{{ page.date_start.time|time:"H:i" }}-{{ page.date_stop.time|time:"H:i" }}</span>
+	  </div>
+	  <div class="col-md-13 text">
+	    <h3 class="theme">{% if page.main_title_link %}<a href="{{ page.main_title_link }}">{% endif %}{{ page.main_title }}{% if page.main_title_link %}</a>{% endif %}<br><br>
+	      {% for item in page.logo.all %}
+	      <a href="{{ item.link }}">{% image item.icon height-40  as tmp_photo %}
+		<img alt="{{ item.name }}" src="{{ tmp_photo.url }}"/></a>
+	      {% endfor %}
+	    </h3>
+	  </div>
+	  <br>
+	  <div class="content">{{ page.body|richtext }}</div>
+	  <a class="btn btn-sign-in" target="_blank" href="{{ page.btn_link }}">{{ page.btn_txt }}</a>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="participants">
+  <div class="container">
+   <!--  <h2 class="speakers">Intervenants</h2> -->
+    <div class="col-md-12">
+      <ul class="credits list-inline">
+	
+      </ul>
+    </div>
+    <h2 class="organizers">
+      Organisateurs et Coorganisateurs:
+    </h2>
+    <div class="col-md-12">
+      <ul class="credits list-inline">
+      {% for item in page.logo.all %}
+      <li><a href="{{ item.link }}">{% image item.icon height-80  as tmp_photo %}<img alt="{{ item.name }}" src="{{ tmp_photo.url }}"/></a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+	<h2 class="organizers">Coordinateur :</h2>
+	<!-- ici penser à ajouter le logo de Systematic LOGICIEL LIBRE -->
+	<br>
+	Contact :<a href="mailto:muriel.shanseifan@systematic-paris-region.org?subject=OSIS">Muriel SHAN SEI FAN</a>
+
+	<h2 class="organizers">Avec le soutien de :</h2>
+	<ul class="list-square">
+<li><a href="http://www.abilian.com/" target="_blank">Abilian</a></li>
+          <li><a href="http://www.logilab.fr/" target="_blank">Logilab</a></li>
+          <li><a href="http://www.inria.fr/" target="_blank">Inria</a></li>
+          <li><a href="http://www.openworldforum.paris/fr/">Open World Forum</a></li>
+	</ul>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
