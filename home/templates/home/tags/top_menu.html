@@ -4,11 +4,16 @@
 
 <ul class="nav navbar-nav">
   <li class="logo">
-    <a href="{{ parent.url }}"><img alt="logo OSIS" src="{% static 'images/carres.png' %}" height="100px" width="75px" /></a>
+    <a href="{{ parent.url }}"><img alt="logo OSIS" src="{% static 'images/opensourcefrontier_embed.jpg' %}" height="75px" width="100px" /></a>
   </li>
-<!--  <li class="dropdown">
-    <a data-toggle="dropdown" class="dropdown-toggle" href="{{ parent.url }}">{{ parent.title|truncatewords:3 }} </a>
-  </li> -->
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ parent.title|truncatewords:3 }}<span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li>
+	<a href="#">rien</a>
+      </li>
+    </ul>
+  </li>
   {% for menuitem in menuitems %}
   <li class="{% if menuitem.show_dropdown %}dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
             {% if menuitem.show_dropdown %}
