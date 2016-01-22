@@ -44,9 +44,8 @@
 	    <meta itemprop="endDate" content="{{ item.link_page.date_stop }}">
 	    {% language 'fr' %}
 	    {% blocktrans with day_t=item.link_page.date_start|date:"l" %}
-	    {{ day_t|capfirst }}
-	    {% endblocktrans %} {{ item.link_page.date_start.day }}
-	    {% if item.link_page.date_start.day == 1 %}er{% endif %} 
+	    {{ day_t }}
+	    {% endblocktrans %} {{ item.link_page.date_start.day }}{% if item.link_page.date_start.day == 1 %}er{% endif %} 
 	    {% blocktrans with month_t=item.link_page.date_start|date:"F" %}
 	    {{ month_t }} {% endblocktrans %}
 	    {{ item.link_page.date_start.year }}{% endlanguage %} 
@@ -120,4 +119,4 @@
     </div>
   </div>
 </div>
-  {% endblock %}
+{% endblock %}

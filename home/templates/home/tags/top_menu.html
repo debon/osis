@@ -4,15 +4,18 @@
 
 <ul class="nav navbar-nav">
   <li class="logo">
-    <a href="http://localhost:8000"><img alt="logo OSIS" src="{% static 'images/carres.png' %}" height="100px" width="75px" /></a>
+    <a href="{{ parent.url }}"><img alt="logo OSIS" src="{% static 'images/carres.png' %}" height="100px" width="75px" /></a>
   </li>
+<!--  <li class="dropdown">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="{{ parent.url }}">{{ parent.title|truncatewords:3 }} </a>
+  </li> -->
   {% for menuitem in menuitems %}
   <li class="{% if menuitem.show_dropdown %}dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
             {% if menuitem.show_dropdown %}
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ menuitem.title }} <b class="caret"></b></a>
                 {% top_menu_children parent=menuitem %}
             {% else %}
-                <a href="{% pageurl menuitem %}">{{ menuitem.title|truncatewords:4 }}</a>
+                <a href="{% pageurl menuitem %}">{{ menuitem.title|truncatewords:3 }}</a>
             {% endif %}
         </li>
     {% endfor %}

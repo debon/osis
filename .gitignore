@@ -1,2 +1,6 @@
 *.pyc
 *~
+
+media/
+.idea/
+node_modules/

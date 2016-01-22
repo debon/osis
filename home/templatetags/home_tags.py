@@ -13,7 +13,7 @@ def has_menu_children(page):
     return page.get_children().live().in_menu().exists()
 
 
-@register.inclusion_tag('tags/top_menu.html', takes_context=True)
+@register.inclusion_tag('home/tags/top_menu.html', takes_context=True)
 def top_menu(context, parent, calling_page=None):
     menuitems = parent.get_children().live().in_menu()
     for menuitem in menuitems:
@@ -22,12 +22,13 @@ def top_menu(context, parent, calling_page=None):
                            if calling_page else False)
     return {
         'calling_page': calling_page,
+        'parent': parent,
         'menuitems': menuitems,
         'request': context['request'],
     }
 
 
-@register.inclusion_tag('tags/top_menu_chidren.html', takes_context=True)
+@register.inclusion_tag('home/tags/top_menu_chidren.html', takes_context=True)
 def top_menu_children(context, parent):
     menuitems_children = parent.get_children()
     menuitems_children = menuitems_children.live().in_menu()
