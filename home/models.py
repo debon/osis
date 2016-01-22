@@ -66,6 +66,7 @@ class RelatedLink(LinkFields):
         abstract = True
 
 
+
 #class Speaker(models.Model):
 
 class Logo(models.Model, index.Indexed):

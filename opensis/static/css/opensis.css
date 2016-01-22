@@ -6,6 +6,19 @@
     background-color: #F6F6F6;
 }
 
+.nav {
+    margin: auto;
+    display: block;
+    background-color : /*#6E7A89;*/#536174;
+    width: 100%;    
+}
+
+.nav li a {
+    color : #FF9444;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 #header a {
     margin: auto;
     font-size: 60%;

@@ -1,4 +1,5 @@
 {% load static wagtailuserbar %}
+{% load home_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailusers_tags %}
 
@@ -25,8 +26,13 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
-        {% block content %}{% endblock %}
+	{% block menu %}
+	{% get_site_root as site_root %}
+	{% top_menu parent=site_root calling_page=self %}
+	{% endblock %}
+        {% block content %}
+	
+	{% endblock %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/opensis.js' %}"></script>

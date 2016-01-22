@@ -18,8 +18,8 @@
 	<div clas="row">
 	  {% language 'fr' %}
 	  <h2 class="title col-md-12">
-	    {% blocktrans with day_t=page.date_start|date:"l" date_tday=page.date_start.day %}{{ day_t }} {{ date_tday }}
-	    {% endblocktrans %}{% if page.date_start.day == 1 %}er {% endif %} 
+	    {% blocktrans with day_t=page.date_start|date:"l" %}{{ day_t }}
+	    {% endblocktrans %} {{ page.date_start.day }}{% if page.date_start.day == 1 %}er {% endif %} 
 	    {% blocktrans with date_tmonth=page.date_start|date:"F" %}
 	    {{ date_tmonth }} 
 	    {% endblocktrans %}

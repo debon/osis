@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% load wagtailcore_tags %}
 {% load tz %}
 {% load wagtailimages_tags %}
@@ -42,10 +42,18 @@
 	  <h2 class="title col-md-12">
 	    <meta itemprop="startDate" content="{{ item.link_page.date_start }}">
 	    <meta itemprop="endDate" content="{{ item.link_page.date_stop }}">
-	    {{ item.link_page.date_start|date:"l" }}, {{ item.link_page.date_start|date }} <span class="pink">[{{ item.link_page.tag }}]</span> <span itemprop="name">{{ item.link_page.title }}</span> <span class="pink" itemprop="location" itemscope itemtype="http://schema.org/Place"> [{{ item.link_page.city }}{% if item.link_page.place %} - {{ item.link_page.place }}{% endif %}]</span></h2></a>
+	    {% language 'fr' %}
+	    {% blocktrans with day_t=item.link_page.date_start|date:"l" %}
+	    {{ day_t|capfirst }}
+	    {% endblocktrans %} {{ item.link_page.date_start.day }}
+	    {% if item.link_page.date_start.day == 1 %}er{% endif %} 
+	    {% blocktrans with month_t=item.link_page.date_start|date:"F" %}
+	    {{ month_t }} {% endblocktrans %}
+	    {{ item.link_page.date_start.year }}{% endlanguage %} 
+	    <span class="pink">[{{ item.link_page.tag }}]</span> <span itemprop="name">{{ item.link_page.title }}</span> <span class="pink" itemprop="location" itemscope itemtype="http://schema.org/Place"> [{{ item.link_page.city }}{% if item.link_page.place %} - {{ item.link_page.place }}{% endif %}]</span></h2></a>
       </div>
       <div class="row conf">
-	<div class="col-md-1 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|time:"H" }}h-{{ item.link_page.date_stop.time|time:"H" }}h</span></div>
+	<div class="col-md-1 date"><span class="icon lightblue-bg">{{ item.link_page.date_start.time|date:"H" }}h{% if item.link_page.date_start.time|date:"i" != "00" %}{{ item.link_page.date_start.time|date:"i" }}{% endif %} - {{ item.link_page.date_stop.time|date:"H" }}h{% if item.link_page.date_stop.time|date:"i" != "00" %}{{ item.link_page.date_stop.time|date:"i" }}{% endif %}</span></div>
 	<div class="col-md-11 text">
 	  <h3 class="theme">
 	    {{ item.link_page.main_title }}
