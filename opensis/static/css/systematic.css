@@ -190,7 +190,7 @@ ul.spaced-li > li + li {
 }
 @media (min-width: 699px) and  (max-width: 1659px){
    body {
-     background: url("../images/small_network.png") no-repeat 100% -170px rgba(0, 0, 0, 0);
+     background: url("../images/small_network.png") no-repeat 100% -120px rgba(0, 0, 0, 0);
    }
    #header {
      background: url("../images/carres.png") no-repeat top left rgba(0, 0, 0, 0);

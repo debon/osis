@@ -83,11 +83,17 @@ class Logo(models.Model, index.Indexed):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    category = models.CharField(max_length = 100,
+                                default="Organizer",
+                                help_text="Organizer, Main_Organizer, Support, Coordinator, Follower",
+                                blank=True,
+    )
   
     panels = [
         FieldPanel('name'),
         FieldPanel('link'),
         ImageChooserPanel('icon'),
+        FieldPanel('category'),
     ]
 
     class Meta:
@@ -103,7 +109,7 @@ class LogoYourself(Logo):
 
 class HomePage(Page):
     body = RichTextField(blank=True)
-    intro = RichTextField(blank=True)
+    dates = RichTextField(blank=True)
     credit = RichTextField(blank=True)
     image = StreamField([
         ('name', blocks.CharBlock(help_text="title of your logo")),
@@ -111,13 +117,25 @@ class HomePage(Page):
         ('img', ImageChooserBlock()),
     ], blank=True)
 
+    def get_organizer(self):
+        return self.logo.filter(category="Main_Organizer")
+
+    def get_support(self):
+        return self.logo.filter(category="Support")
+    
+    def get_coordinator(self):
+        return self.logo.filter(category="Coordinator")
+
+    def get_follower(self):
+        return self.logo.filter(category="Follower")
+
     content_panels = Page.content_panels + [
-        FieldPanel('intro'),
-        StreamFieldPanel('image'),
+        FieldPanel('dates'),
         FieldPanel('credit'),
+       # StreamFieldPanel('image'),
         FieldPanel('body'),
         InlinePanel('related_links', label="Related events"),
-        #InlinePanel('your_logo', label="Logo"),
+        InlinePanel('logo', label="Logo"),
     ]
 
 
@@ -174,8 +192,11 @@ class EventsPage(Page):
     ]
 
 
-class EventsRelatedLink(Orderable, RelatedLink):
-    page = ParentalKey('HomePage', related_name='related_links')
+class LogoHome(Orderable, LogoYourself):
+    page = ParentalKey('home.HomePage', related_name='logo')
 
-class LogoMaker(Orderable, LogoYourself):
-    page = ParentalKey('EventsPage', related_name='logo')
+class EventsRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.HomePage', related_name='related_links')
+
+class LogoEvents(Orderable, LogoYourself):
+    page = ParentalKey('home.EventsPage', related_name='logo')

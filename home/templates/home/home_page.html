@@ -11,8 +11,15 @@
     <h1>THE <span class="pink">OPEN SOURCE</span><br>
       INNOVATION SPRING</h1>
     <h2><span class="pink">BIG DATA</span> | <span class="pink">IoT</span> | <span class="pink">CLOUD</span> | <span class="pink">QUALITÉ LOGICIELLE</span></h2>
-    {{ page.intro | richtext }}
-    <span class="credits">{{ page.credit | richtext }}</span>
+    {{ page.dates | richtext }}
+    <span class="credits">
+      <h4>Organisé par : {% for item in self.get_organizer %} <a href="{{ item.link }}">{% image item.icon height-40 as photo %}
+	<img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
+      {% endfor%}</h4>
+      <h5>Avec le soutien de {% for item in self.get_support %}<a href="{{ item.link }}">{% image item.icon height-30 as photo %}
+	<img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
+      {% endfor%}</h5>
+    </span>
   </div>
 </div>
 <div class="darkgrey-strip pa1-5e">
@@ -56,12 +63,12 @@
 	<div class="col-md-11 text">
 	  <h3 class="theme">
 	    {{ item.link_page.main_title }}
-	</h3>
+	  </h3>
 	</div>
 	<br>
 	{% for pict in item.link_page.logo.all %}
 	<a href="{{ pict.link }}">{% image pict.icon height-30 as photo %}
-	    <img alt="{{ pict.name }}" src="{{ photo.url }}"/></a>
+	  <img alt="{{ pict.name }}" src="{{ photo.url }}"/></a>
 	{% endfor %}
 	<br><br><br>
 	<div class="content">
@@ -81,6 +88,10 @@
     <div class="col-md-12">    
       <ul class="credits list-inline">
 	<!-- Liste des logos des organisateurs -->
+	{% for item in self.get_organizer %} 
+	<li><a href="{{ item.link }}">{% image item.icon height-40 as photo %}
+	    <img alt="{{ photo.name }}" src="{{ photo.url }}"/></a></li>
+	{% endfor%}
 	{% for item in page.related_links.all %}
 	{% for pict in item.link_page.logo.all %}
 	<li><a href="{{ pict.link }}">{% image pict.icon height-40 as photo %}
@@ -94,7 +105,10 @@
     <h2 class="organizers">Ils relaient l'OSIS, merci !!</h2>
     <div class="col-md-12">
       <ul class="credits list-inline">
-
+	{% for item in self.get_follower %}
+	<li><a href="{{ item.link }}">{% image item.icon height-40 as photo %}
+	    <img alt="{{ photo.name }} relaie l'OSIS" src="{{ photo.url }}"/></a></li>
+	{% endfor %}
       </ul>
     </div>
   </div>
@@ -104,7 +118,10 @@
     <div class="row">
       <div class="col-md-6">
 	<h2 class="organizers">Coordinateur :</h2>
-	<!-- logo avec lien -->
+	{% for item in self.get_coordinator %}
+	<a href="{{ item.link }}">{% image item.icon height-40 as photo %}
+	    <img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
+	{% endfor%}
 	<br>
 	Contact :
      <a href="mailto:muriel.shanseifan@systematic-paris-region.org?subject=OSIS">Muriel SHAN SEI FAN</a>
