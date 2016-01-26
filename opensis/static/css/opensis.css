@@ -24,6 +24,46 @@
     font-size: 60%;
 }
 
+#intro h5 {
+    display: table;
+    white-space: nowrap;
+    border-spacing: 25px 0;
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    width: 110%;
+    margin-left: -5%;
+    font-size: 1em;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+#intro h5:before, #intro h5:after {
+  content: "";
+  display: table-cell;
+  width: 50%;
+  background: -webkit-linear-gradient(#FFF, #FFF) repeat-x left center;
+  background: -moz-linear-gradient(#FFF, #FFF) repeat-x left center;
+  background: -ms-linear-gradient(#FFF, #FFF) repeat-x left center;
+  background: linear-gradient(#FFF, #FFF) repeat-x left center;
+  background-size: 1px 1px;
+}
+
+#intro ul {
+    list-style-type: square;
+}
+
+#intro ul > li + li {
+    margin-top: 1em;
+}
+
+#intro ul li {
+    font-style: normal;
+}
+
+#intro ul li b {
+    color: #C7CFE2;
+}
+
 .oy b {
     color: #EB43A7;
 }
@@ -45,7 +85,7 @@
     font-size: 14px;
 }
 
-.oy .h5 {
+.oy h5 {
     font-family: inherit;
     font-size: 12px;
     font-weigh: bold;

@@ -66,8 +66,29 @@ class RelatedLink(LinkFields):
         abstract = True
 
 
+class Topics(models.Model):
+    subject = models.CharField(max_length = 100, blank=True)
+    
+    panels = [
+        FieldPanel('subject'),
+    ]
 
-#class Speaker(models.Model):
+    class Meta:
+        abstract=True
+
+
+class Supports(models.Model):
+    name = models.CharField(max_length = 254, blank=True)
+    link = models.URLField("support link", blank=True, null=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('link'),
+    ]
+
+    class Meta:
+        abstract=True
+
 
 class Logo(models.Model, index.Indexed):
     name = models.CharField(max_length = 100, blank=True)
@@ -107,10 +128,22 @@ class LogoYourself(Logo):
     class Meta:
         abstract = True
 
+
+class SupportTupple(Supports):
+    panels = [
+        MultiFieldPanel(Supports.panels, "supports"),
+    ]
+    
+    class Meta:
+        abstract=True
+    
+
+
 class HomePage(Page):
     body = RichTextField(blank=True)
     dates = RichTextField(blank=True)
-    credit = RichTextField(blank=True)
+    ct_name = models.CharField(max_length = 100, blank = True)
+    ct_mail = models.EmailField(max_length = 254, blank = True)
     image = StreamField([
         ('name', blocks.CharBlock(help_text="title of your logo")),
         ('link', blocks.URLBlock(help_text="url to your website")),
@@ -130,12 +163,23 @@ class HomePage(Page):
         return self.logo.filter(category="Follower")
 
     content_panels = Page.content_panels + [
+        InlinePanel('topics', label="Topics"),
         FieldPanel('dates'),
-        FieldPanel('credit'),
        # StreamFieldPanel('image'),
         FieldPanel('body'),
         InlinePanel('related_links', label="Related events"),
+        FieldPanel('ct_name'),
+        FieldPanel('ct_mail'),
+        InlinePanel('supports', label="supports"),
         InlinePanel('logo', label="Logo"),
+    ]
+
+
+class MainPage(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
     ]
 
 
@@ -200,3 +244,9 @@ class EventsRelatedLink(Orderable, RelatedLink):
 
 class LogoEvents(Orderable, LogoYourself):
     page = ParentalKey('home.EventsPage', related_name='logo')
+
+class SupportsHome(Orderable, SupportTupple):
+    page = ParentalKey('home.HomePage', related_name='supports')
+
+class TopicsHome(Orderable, Topics):
+    page = ParentalKey('home.HomePage', related_name='topics')

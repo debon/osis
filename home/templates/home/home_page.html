@@ -10,7 +10,12 @@
   <div id="info">
     <h1>THE <span class="pink">OPEN SOURCE</span><br>
       INNOVATION SPRING</h1>
-    <h2><span class="pink">BIG DATA</span> | <span class="pink">IoT</span> | <span class="pink">CLOUD</span> | <span class="pink">QUALITÉ LOGICIELLE</span></h2>
+    <h2>{% if page.topics.all %}
+      {% for topic in page.topics.all %}
+      <span class="pink"> {{ topic.subject|upper }} </span> | 
+      {% endfor %}
+      {% endif %}
+    </h2>
     {{ page.dates | richtext }}
     <span class="credits">
       <h4>Organisé par : {% for item in self.get_organizer %} <a href="{{ item.link }}">{% image item.icon height-40 as photo %}
@@ -28,13 +33,6 @@
       <div id="intro">
 	{{ page.body | richtext }}
       </div>
-      <div class="legendary">Pourquoi venir ?</div>
-      <ul class="list-square spaced-li">
-        <li> Pour <span class="blue-bold">élargir et approfondir ses connaissances</span> sur un ensemble de technologies clefs pour la transformation numérique et la compétivité des entreprises, en interagissant directement avec les créateurs de ces technologies et les pionniers de leurs usages ;</li>
-        <li>Pour <span class="blue-bold">découvrir</span>, en amont de la courbe d'adoption par le marché, les projets d'innovation académiques et industriels dont l'impact se fera sentir dans les années à venir ;</li>
-        <li> Pour <span class="blue-bold">comprendre</span> comment appliquer dès aujourd'hui ces connaissances à leurs problématiques métiers – depuis la vision stratégique jusqu'aux détails d'implémentation rarement évoqués mais souvent cruciaux ; </li>
-        <li>Pour <span class="blue-bold">rencontrer</span> ses pairs, nouer de nouveaux contacts, faire émerger de nouvelles collaborations.</li>
-      </ul>
     </div>
   </div>
   <br>
@@ -87,16 +85,19 @@
     <h2 class="organizers">Organisateurs et coorganisateurs :</h2>
     <div class="col-md-12">    
       <ul class="credits list-inline">
-	<!-- Liste des logos des organisateurs -->
+	{% if self.get_organizer %}
 	{% for item in self.get_organizer %} 
 	<li><a href="{{ item.link }}">{% image item.icon height-40 as photo %}
 	    <img alt="{{ photo.name }}" src="{{ photo.url }}"/></a></li>
 	{% endfor%}
+	{% endif %}
+	{% if page.related_links.all %}
 	{% for item in page.related_links.all %}
+	{% if item.link_page.logo.all %}
 	{% for pict in item.link_page.logo.all %}
 	<li><a href="{{ pict.link }}">{% image pict.icon height-40 as photo %}
 	    <img alt="{{ pict.name }}" src="{{ photo.url }}"/></a></li>
-	{% endfor %}{% endfor %}
+	{% endfor %}{% endif %}{% endfor %}{% endif %}
 	
       </ul>
     </div>
@@ -105,10 +106,12 @@
     <h2 class="organizers">Ils relaient l'OSIS, merci !!</h2>
     <div class="col-md-12">
       <ul class="credits list-inline">
+	{% if self.get_follower %}
 	{% for item in self.get_follower %}
 	<li><a href="{{ item.link }}">{% image item.icon height-40 as photo %}
 	    <img alt="{{ photo.name }} relaie l'OSIS" src="{{ photo.url }}"/></a></li>
 	{% endfor %}
+	{% endif %}
       </ul>
     </div>
   </div>
@@ -118,19 +121,23 @@
     <div class="row">
       <div class="col-md-6">
 	<h2 class="organizers">Coordinateur :</h2>
+	{% if self.get_coordinator %}
 	{% for item in self.get_coordinator %}
 	<a href="{{ item.link }}">{% image item.icon height-40 as photo %}
-	    <img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
+	  <img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
 	{% endfor%}
+	{% endif %}
 	<br>
 	Contact :
-     <a href="mailto:muriel.shanseifan@systematic-paris-region.org?subject=OSIS">Muriel SHAN SEI FAN</a>
+	{% if page.ct_mail %}
+	<a href="mailto:{{ page.ct_mail }}?subject=OSIS">{% endif %}{% if page.ct_name %}{{ page.ct_name }}{% endif %}{% if page.ct_mail %}</a>{% endif %}
 	<h2 class="organizers">Avec le soutien de :</h2>
 	<ul class="list-square">
-	<li><a href="http://www.abilian.com/" target="_blank">Abilian</a></li>
-        <li><a href="http://www.logilab.fr/" target="_blank">Logilab</a></li>
-        <li><a href="http://www.inria.fr/" target="_blank">Inria</a></li>
-        <li><a href="http://www.openworldforum.paris/fr/">Open World Forum</a></li>
+	  {% if page.supports.all %}
+	  {% for sup in page.supports.all %}
+	  <li><a href="{{ sup.linl }}" target="_blank">{{ sup.name }}</a></li>
+	  {% endfor %}
+	  {% endif %}
 	</ul>
       </div>
     </div>

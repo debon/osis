@@ -14,20 +14,17 @@
       </li>
       <li class="divider"></li>
       {% for menuitem in menuitems %}
-      <li>
+      <li class="{% if menuitem.show_dropdown %}dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
+        {% if menuitem.show_dropdown %}
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ menuitem.title }} <b class="caret"></b></a>
+        {% top_menu_children parent=menuitem %}
+        {% else %}
         <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>
   </li>
 </ul>
-<!-- {% for menuitem in menuitems %}
-  <li class="{% if menuitem.show_dropdown %}dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
-            {% if menuitem.show_dropdown %}
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ menuitem.title }} <b class="caret"></b></a>
-                {% top_menu_children parent=menuitem %}
-            {% else %}
-                <a href="{% pageurl menuitem %}">{{ menuitem.title|truncatewords:3 }}</a>
-            {% endif %}
-        </li>
-    {% endfor %}-->
+
+

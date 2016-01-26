@@ -160,6 +160,7 @@ ul.spaced-li > li + li {
   width: 110%;
   margin-left: -5%;
   text-transform: uppercase;
+  font-style: normal;
 }
 .legendary:before, .legendary:after {
   content: "";

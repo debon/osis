@@ -28,7 +28,7 @@ def top_menu(context, parent, calling_page=None):
     }
 
 
-@register.inclusion_tag('home/tags/top_menu_chidren.html', takes_context=True)
+@register.inclusion_tag('home/tags/top_menu_children.html', takes_context=True)
 def top_menu_children(context, parent):
     menuitems_children = parent.get_children()
     menuitems_children = menuitems_children.live().in_menu()
@@ -37,3 +37,18 @@ def top_menu_children(context, parent):
         'menuitems_children': menuitems_children,
         'request': context['request'],
     }
+
+#@register.inclusion_tag('home/tags/secondary_menu.html', takes_context=True)
+#def secondary_menu(context, calling_page=None):
+#    pages = []
+#    if calling_page:
+#        pages = calling_page.get_children().live().in_menu()
+
+        # If no children, get siblings instead
+#        if len(pages) == 0:
+#            pages = calling_page.get_siblings(inclusive=False).live().in_menu()
+#    return {
+#        'pages': pages,
+        # required by the pageurl tag that we want to use within this template
+#        'request': context['request'],
+#    }
