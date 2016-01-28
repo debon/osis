@@ -194,8 +194,9 @@ ul.spaced-li > li + li {
      background: url("../images/small_network.png") no-repeat 100% -120px rgba(0, 0, 0, 0);
    }
    #header {
-     background: url("../images/carres.png") no-repeat top left rgba(0, 0, 0, 0);
+     background: url("../images/carres.png") no-repeat top 10px left rgba(0, 0, 0, 0);
      padding-left : 245px;
+     padding-top: 10px;
      overflow: hidden;
    }
    #header .toright {

@@ -12,18 +12,21 @@
       INNOVATION SPRING</h1>
     <h2>{% if page.topics.all %}
       {% for topic in page.topics.all %}
-      <span class="pink"> {{ topic.subject|upper }} </span> | 
+      <span class="pink"> {{ topic.subject|upper }} </span>
+      {% if not forloop.last %} | {% endif %}
       {% endfor %}
       {% endif %}
     </h2>
     {{ page.dates | richtext }}
     <span class="credits">
-      <h4>Organisé par : {% for item in self.get_organizer %} <a href="{{ item.link }}">{% image item.icon height-40 as photo %}
+      <h4>Organisé par : {% if self.get_organizer %}
+	{% for item in self.get_organizer %} <a href="{{ item.link }}">{% image item.icon height-40 as photo %}
 	<img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
-      {% endfor%}</h4>
-      <h5>Avec le soutien de {% for item in self.get_support %}<a href="{{ item.link }}">{% image item.icon height-30 as photo %}
+      {% endfor%}{% endif %}</h4>
+      <h5>Avec le soutien de {% if self.get_support %}
+	{% for item in self.get_support %}<a href="{{ item.link }}">{% image item.icon height-30 as photo %}
 	<img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
-      {% endfor%}</h5>
+      {% endfor%}{% endif %}</h5>
     </span>
   </div>
 </div>
@@ -35,7 +38,6 @@
       </div>
     </div>
   </div>
-  <br>
 </div>
 <div id="program">
   {% if page.related_links.all %}
@@ -48,7 +50,7 @@
 	    <meta itemprop="startDate" content="{{ item.link_page.date_start }}">
 	    <meta itemprop="endDate" content="{{ item.link_page.date_stop }}">
 	    {% language 'fr' %}
-	    {% blocktrans with day_t=item.link_page.date_start|date:"l" %}
+	    {% blocktrans with day_t=item.link_page.date_start|date:"l"|capfirst %}
 	    {{ day_t }}
 	    {% endblocktrans %} {{ item.link_page.date_start.day }}{% if item.link_page.date_start.day == 1 %}er{% endif %} 
 	    {% blocktrans with month_t=item.link_page.date_start|date:"F" %}
@@ -130,12 +132,14 @@
 	<br>
 	Contact :
 	{% if page.ct_mail %}
-	<a href="mailto:{{ page.ct_mail }}?subject=OSIS">{% endif %}{% if page.ct_name %}{{ page.ct_name }}{% endif %}{% if page.ct_mail %}</a>{% endif %}
+	<a href="mailto:{{ page.ct_mail }}?subject=OSIS">{% endif %}
+	  {% if page.ct_name %}{{ page.ct_name }}{% endif %}
+	  {% if page.ct_mail %}</a>{% endif %}
 	<h2 class="organizers">Avec le soutien de :</h2>
 	<ul class="list-square">
 	  {% if page.supports.all %}
 	  {% for sup in page.supports.all %}
-	  <li><a href="{{ sup.linl }}" target="_blank">{{ sup.name }}</a></li>
+	  <li><a href="{{ sup.link }}" target="_blank">{{ sup.name }}</a></li>
 	  {% endfor %}
 	  {% endif %}
 	</ul>

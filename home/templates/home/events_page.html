@@ -5,12 +5,12 @@
 {% load wagtailimages_tags %}
 {% block body_class %}template-eventspage{% endblock %}
 {% block content %}
+
 <div id="header">
   <h1>The <span class="pink">Open Source</span><br>
     Innovation Spring</h1>
   <h2><br><span class="pink">[{{ page.tag }}]</span> {{ page.title }} <span class="pink">[{{ page.city }}]</span><br><br><a class="btn btn-sign-in" target="_blank" href="{{ page.btn_link }}">{{ page.btn_txt }}</a></h2>
 </div>
-<!-- <div class="darkgrey-strip pa1-5e"><div class="container"></div></div> -->
 <div id="program">
   <div class="container">
     <div itemscop itemtype="http://schema.org/Event">
@@ -18,7 +18,7 @@
 	<div clas="row">
 	  {% language 'fr' %}
 	  <h2 class="title col-md-12">
-	    {% blocktrans with day_t=page.date_start|date:"l" %}{{ day_t }}
+	    {% blocktrans with day_t=page.date_start|date:"l"|capfirst %}{{ day_t }}
 	    {% endblocktrans %} {{ page.date_start.day }}{% if page.date_start.day == 1 %}er {% endif %} 
 	    {% blocktrans with date_tmonth=page.date_start|date:"F" %}
 	    {{ date_tmonth }} 
@@ -30,8 +30,8 @@
 	  </h2>
 	</div>
 	<div class="row conf">
-	  <div class="col-md-1 date">
-	    <span class="icon lightblue-bg">{{ page.date_start.time|time:"H:i" }}-{{ page.date_stop.time|time:"H:i" }}</span>
+	  <div class="col-md-13 date">
+	    <span class="icon lightblue-bg">{{ page.date_start.time|time:"H:i" }} - {{ page.date_stop.time|time:"H:i" }}</span>
 	  </div>
 	  <div class="col-md-13 text">
 	    <h3 class="theme">{% if page.main_title_link %}<a href="{{ page.main_title_link }}">{% endif %}{{ page.main_title }}{% if page.main_title_link %}</a>{% endif %}<br><br>
@@ -74,16 +74,25 @@
     <div class="row">
       <div class="col-md-6">
 	<h2 class="organizers">Coordinateur :</h2>
-	<!-- ici penser à ajouter le logo de Systematic LOGICIEL LIBRE -->
+	{% if self.get_home.get_coordinator %}
+	{% for item in self.get_home.get_coordinator %}
+	<a href="{{ item.link }}">{% image item.icon height-40 as photo %}
+	  <img alt="{{ photo.name }}" src="{{ photo.url }}"/></a>
+	{% endfor%}
+	{% endif %}
 	<br>
-	Contact :<a href="mailto:muriel.shanseifan@systematic-paris-region.org?subject=OSIS">Muriel SHAN SEI FAN</a>
-
+	Contact :
+	{% if self.get_home.ct_mail %}
+	<a href="mailto:{{ self.get_home.ct_mail }}?subject=OSIS">{% endif %}
+	  {% if self.get_home.ct_name %}{{ self.get_home.ct_name }}{% endif %}
+	  {% if self.get_home.ct_mail %}</a>{% endif %}
 	<h2 class="organizers">Avec le soutien de :</h2>
 	<ul class="list-square">
-<li><a href="http://www.abilian.com/" target="_blank">Abilian</a></li>
-          <li><a href="http://www.logilab.fr/" target="_blank">Logilab</a></li>
-          <li><a href="http://www.inria.fr/" target="_blank">Inria</a></li>
-          <li><a href="http://www.openworldforum.paris/fr/">Open World Forum</a></li>
+	  {% if self.get_home.supports.all %}
+	  {% for sup in self.get_home.supports.all %}
+	  <li><a href="{{ sup.link }}" target="_blank">{{ sup.name }}</a></li>
+	  {% endfor %}
+	  {% endif %}
 	</ul>
       </div>
     </div>

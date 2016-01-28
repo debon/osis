@@ -21,15 +21,19 @@
             {# Override this in templates to add extra stylesheets #}
 	<link href="{% static 'css/systematic.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'css/opensis.css' %}" rel="stylesheet" type="text/css">	
+	<link href="{% static 'css/sm-core-css.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/sm-mint.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
+
 	{% block menu %}
 	{% get_site_root as site_root %}
 	{% top_menu parent=site_root calling_page=self %}
 	{% endblock %}
+
         {% block content %}
 	
 	{% endblock %}
@@ -40,8 +44,11 @@
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="{% static 'js/jquery.js' %}" type="text/javascript"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="{% static 'js/jquery.smartmenus.js' %}" type="text/javascript"></script>
         {% endblock %}
     </body>
 </html>

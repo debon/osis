@@ -2,29 +2,19 @@
 {% load home_tags %}
 {% load static %}
 
-<ul class="nav navbar-nav">
- <!-- <li class="logo">
-    <a href="{{ parent.url }}"><img alt="logo OSIS" src="{% static 'images/opensourcefrontier_embed.jpg' %}" height="75px" width="100px" /></a>
-  </li>-->
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ parent.title }}<span class="caret"></span></a>
-    <ul class="dropdown-menu">
-      <li>
-   	<a href="{{ parent.url }}">{{ parent.title }}</a>
-      </li>
-      <li class="divider"></li>
-      {% for menuitem in menuitems %}
-      <li class="{% if menuitem.show_dropdown %}dropdown{% endif %}{% if calling_page.url == menuitem.url %} active{% endif %}">
-        {% if menuitem.show_dropdown %}
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ menuitem.title }} <b class="caret"></b></a>
-        {% top_menu_children parent=menuitem %}
-        {% else %}
-        <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
-        {% endif %}
-      </li>
-      {% endfor %}
-    </ul>
+<ul id="main-menu" class="sm sm-mint">
+  {% for menuitem in menuitems %}
+  <li class="{% if menuitem.active %}active{% endif %}">
+    {% if menuitem.has_children %}
+    <a href="{{ menuitem.url }}">{{ menuitem.title }}
+      <span class="hidden-lg hidden-md hidden-sm visible-xs-inline">
+        <span class="caret"></span>
+      </span>
+    </a>
+    {% top_menu_children parent=menuitem %}
+    {% else %}
+    <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+    {% endif %}
   </li>
+  {% endfor %}
 </ul>
-
-

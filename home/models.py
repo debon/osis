@@ -201,7 +201,10 @@ class EventsPage(Page):
     
     #TO DO configure a set of choices for design presentation :
     # Schedules -> Program -> Speakers -> Topics
-
+    
+    def get_home(self):
+        return self.get_ancestors().type(HomePage).last().specific
+    
     # Search index configuration
 
     search_fields = Page.search_fields + (
