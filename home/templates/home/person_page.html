@@ -1,0 +1,12 @@
+{% if page.related_links.all %}
+{% for person in page.related_links.all %}
+{% with person.link_page.specific as speaker %}
+<p>
+  <div class="pink">{{ speaker.firstname }}&nbsp{{ speaker.name }}</div>
+  ({% if speaker.job %}{{ speaker.job }}, {% endif %}{% if speaker.spot_link %}<a href="{{ speaker.spot_link }}">{% endif %}
+   {% if speaker.spot %}{{ speaker.spot }}{% endif %}{% if speaker.spot_link %}
+    </a>{% endif %})
+</p>
+{% endwith %}
+{% endfor %}
+{% endif %}

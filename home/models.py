@@ -19,6 +19,7 @@ from datetime import datetime
 from wagtail.wagtailcore import blocks
 from django.utils import timezone
 
+# Links that point to events pages from home page
 
 class LinkFields(models.Model):
     description = RichTextField(
@@ -32,12 +33,12 @@ class LinkFields(models.Model):
         help_text='Set an external link if you want to describe the event from an other web site',
     )
     link_page = models.ForeignKey(
-        'home.EventsPage',
+        'wagtailcore.Page',
         null=True,
         on_delete=models.SET_NULL,
         blank=True,
         related_name='+',
-        help_text='Choose an existing page (event must have already been created)',
+        help_text='Choose an existing page (must have already been created)',
     )
 
     @property
@@ -66,6 +67,8 @@ class RelatedLink(LinkFields):
         abstract = True
 
 
+# Topics of the year
+
 class Topics(models.Model):
     subject = models.CharField(max_length = 100, blank=True)
     
@@ -76,6 +79,8 @@ class Topics(models.Model):
     class Meta:
         abstract=True
 
+
+# Supports Links for footer
 
 class Supports(models.Model):
     name = models.CharField(max_length = 254, blank=True)
@@ -89,6 +94,17 @@ class Supports(models.Model):
     class Meta:
         abstract=True
 
+
+class SupportTupple(Supports):
+    panels = [
+        MultiFieldPanel(Supports.panels, "supports"),
+    ]
+    
+    class Meta:
+        abstract=True
+    
+
+#Load an image for events or home page
 
 class Logo(models.Model, index.Indexed):
     name = models.CharField(max_length = 100, blank=True)
@@ -129,14 +145,116 @@ class LogoYourself(Logo):
         abstract = True
 
 
-class SupportTupple(Supports):
+# Model for a speaker or just someone important
+
+class Person(Page):
+    firstname = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=254, blank=True)
+    job = models.CharField(max_length=254, blank=True)
+    spot = models.CharField(max_length=200, blank=True)
+    spot_link = models.URLField(max_length=254, blank=True)
+    mail = models.EmailField(max_length=254, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    pict = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    
+    content_panels = Page.content_panels + [
+        FieldRowPanel([
+            FieldPanel('firstname', classname="col4"),
+            FieldPanel('name', classname="col4"),
+            FieldPanel('job', classname="col4"),
+        ]),
+        FieldRowPanel([
+            FieldPanel('spot', classname="col6"),
+            FieldPanel('spot_link', classname="col6"),
+        ]),
+        FieldRowPanel([
+            FieldPanel('mail', classname="col6"),
+            FieldPanel('phone', classname="col6"),
+        ]),
+        ImageChooserPanel('pict'),
+    ]
+
+
+class Group(Page):
+    content_panels = Page.content_panels + [
+        InlinePanel('speakers', label="speakers"),
+    ]
+
+
+class Talk(models.Model):
+    time_start = models.TimeField(blank=True)
+    time_end = models.TimeField(blank=True, null=True)
+    name = models.CharField(max_length=254, blank=True)
+    resume = RichTextField(blank=True)
+    speaker = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        on_delete=models.SET_NULL,
+        blank=True,
+        related_name='+',
+        help_text='Choose an existing person or group (must have already been created)',
+    )
+
     panels = [
-        MultiFieldPanel(Supports.panels, "supports"),
+        FieldPanel('name'),
+        FieldRowPanel([
+            FieldPanel('time_start', classname="col6"),
+            FieldPanel('time_end', classname="col6"),
+        ]),
+        FieldPanel('resume'),
+        PageChooserPanel('speaker'),
+    ]
+
+    class Meta:
+        abstract=True
+
+
+class Talks(Talk):
+    panels = [
+        MultiFieldPanel(Talk.panels, "talks"),
     ]
     
     class Meta:
         abstract=True
-    
+
+
+class Section(models.Model):
+    time_start = models.TimeField(blank=True)
+    time_end = models.TimeField(blank=True, null=True)
+    section_name = models.CharField(max_length=254, blank=True)
+
+    panels = [
+        FieldPanel('section_name'),
+        FieldRowPanel([
+            FieldPanel('time_start', classname="col6"),
+            FieldPanel('time_end', classname="col6"),
+        ]),
+    ]
+
+    class Meta:
+        abstract=True
+
+
+class SectionZip(Section):
+    panels = [
+        MultiFieldPanel(Section.panels, "division"),
+    ]
+
+    class Meta:
+        abstract=True
+
+
+class ProgramPage(Page):
+    content_panels = Page.content_panels + [
+        InlinePanel('division', label="division"),
+        InlinePanel('talks', label="talks"),
+    ]
 
 
 class HomePage(Page):
@@ -230,6 +348,7 @@ class EventsPage(Page):
             FieldPanel('main_title', classname="col6"),
             FieldPanel('main_title_link', classname="col6"),
         ]),
+        InlinePanel('program', label="program"),
         InlinePanel('logo', label="logo"),
         FieldPanel('body'),
         FieldRowPanel([
@@ -253,3 +372,16 @@ class SupportsHome(Orderable, SupportTupple):
 
 class TopicsHome(Orderable, Topics):
     page = ParentalKey('home.HomePage', related_name='topics')
+
+class TalkProg(Orderable, Talks):
+    page = ParentalKey('home.ProgramPage', related_name="talks")
+
+class SecProg(Orderable, SectionZip):
+    page = ParentalKey('home.ProgramPage', related_name="division")
+
+class ProgramRelatedLink(Orderable, RelatedLink):
+    page = ParentalKey('home.EventsPage', related_name='program')
+
+class PersonGroup(Orderable, RelatedLink):
+    page = ParentalKey('home.Group', related_name='speakers')
+
